@@ -5,7 +5,7 @@ from .base_gui import BaseGUI
 
 
 class WebAppGUI(BaseGUI):
-    """ GUI class for creating web apps using PySide's Qt.
+    """ GUI class for creating web apps using PyQt5.
 
     The class WebAppGUI can be used to create web based applications in a
     QtWebKit based browser running on user side. The server for the web app
