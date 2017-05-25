@@ -1,8 +1,12 @@
-from PySide import QtGui, QtWebKit
-from . import settings, descriptors, unicode
 import abc
 import sys
 
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWebKit import QWebSettings
+from PyQt5.QtWebKitWidgets import QWebView
+from PyQt5.QtWidgets import QApplication
+
+from . import settings, descriptors, unicode
 
 RIGHT_CLICK_SETTING_KEY = "RIGHT_CLICK"
 RIGHT_CLICK_ENABLE = "document.oncontextmenu = null;"
@@ -34,7 +38,7 @@ class BaseGUI(object):
             This can be instantiated only once in the entire process.
         window (PySide.QtGui.QMainWindow): The window being displayed in the
             ``app``.
-        web_app (PySide.QtWebKit.QWebView): The web view widget which renders
+        window (PySide.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
         maximized (bool property): A boolean which describes whether the
             ``window`` is maximized or not. Can be set to ``True`` to maximize
@@ -71,22 +75,22 @@ class BaseGUI(object):
                  allow_overwrite=False):
         """ Abstract constructor for the :py:class:`htmlPy.BaseGUI` class """
 
-        app = QtGui.QApplication.instance()
+        app = QApplication.instance()
         if app is not None and not allow_overwrite:
             raise RuntimeError("Another htmlPy application is already running")
         elif app is not None:
             self.app = app
         else:
-            self.app = QtGui.QApplication(sys.argv)
+            self.app = QApplication(sys.argv)
 
-        self.web_app = QtWebKit.QWebView()
-        self.window = QtGui.QMainWindow()
-        self.window.setCentralWidget(self.web_app)
-        self.web_app.settings().setAttribute(
-            QtWebKit.QWebSettings.LocalContentCanAccessRemoteUrls, True)
+        self.window = Browser()
+        self.web_app = self.window.window()  # backwards compatibility
+        # self.window.show()
+        self.window.settings().setAttribute(
+            QWebSettings.LocalContentCanAccessRemoteUrls, True)
 
         self._javascript_settings = {}
-        self.web_app.loadFinished.connect(self.__javascript_setting_call)
+        self.window.loadFinished.connect(self.__javascript_setting_call)
 
         self._width = width
         self._height = height
@@ -118,24 +122,24 @@ class BaseGUI(object):
 
     plugins = descriptors.LiveProperty(
         bool,
-        lambda instance: instance.web_app.settings().testAttribute(
-            QtWebKit.QWebSettings.PluginsEnabled),
-        lambda instance, value: instance.web_app.settings().setAttribute(
-            QtWebKit.QWebSettings.PluginsEnabled, value))
+        lambda instance: instance.window.settings().testAttribute(
+            QWebSettings.PluginsEnabled),
+        lambda instance, value: instance.window.settings().setAttribute(
+            QWebSettings.PluginsEnabled, value))
 
     developer_mode = descriptors.LiveProperty(
         bool,
-        lambda instance: instance.web_app.settings().testAttribute(
-            QtWebKit.QWebSettings.WebAttribute.DeveloperExtrasEnabled),
-        lambda instance, value: instance.web_app.settings().setAttribute(
-            QtWebKit.QWebSettings.WebAttribute.DeveloperExtrasEnabled, value))
+        lambda instance: instance.window.settings().testAttribute(
+            QWebSettings.DeveloperExtrasEnabled),
+        lambda instance, value: instance.window.settings().setAttribute(
+            QWebSettings.DeveloperExtrasEnabled, value))
 
     def __javascript_setting_call(self):
         """ Re-evaluate javascript settings
 
         This function re-evaluates all the javascript settings defined in the
         dictionary ``_javascript_settings``. This should be connected
-        to the slot ``web_app.loadFinished``.
+        to the slot ``window.loadFinished``.
         """
         javascript_string = ";".join(self._javascript_settings.values())
         if len(javascript_string) > 0:
@@ -187,7 +191,7 @@ class BaseGUI(object):
             javascript_string (str): The string of javascript code that has to
                 be evaluated.
         """
-        self.web_app.page().mainFrame().evaluateJavaScript(javascript_string)
+        self.window.page().mainFrame().evaluateJavaScript(javascript_string)
 
     def right_click_setting(self, value):
         """ Javascript based setting for right click on the application.
@@ -251,3 +255,19 @@ class BaseGUI(object):
             raise ValueError("The argument should be either " +
                              "htmlPy.settings.ENABLE or " +
                              "htmlPy.settings.DISABLE")
+
+
+class Browser(QWebView):
+    def __init__(self):
+        self.view = QWebView.__init__(self)
+        self.setWindowTitle('Loading...')
+        self.titleChanged.connect(self.adjustTitle)
+
+    def adjustTitle(self):
+        self.setWindowTitle(self.title())
+
+    def load(self, url):
+        self.setUrl(QUrl(url))
+
+    def getView(self):
+        return self.view

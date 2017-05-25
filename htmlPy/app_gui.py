@@ -1,8 +1,10 @@
+import os
+
+import jinja2
+
+from . import Object, unicode, settings, descriptors
 from .base_gui import BaseGUI
 from .gui_helper import GUIHelper as Helper
-from . import Object, unicode, settings, descriptors
-import os
-import jinja2
 
 
 class AppGUI(BaseGUI):
@@ -51,10 +53,10 @@ class AppGUI(BaseGUI):
             This can be instantiated only once in the entire process.
         window (PySide.QtGui.QMainWindow): The window being displayed in the
             ``app``.
-        web_app (PySide.QtWebKit.QWebView): The web view widget which renders
+        window (PySide.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
         html (unicode property): The HTML currently rendered in the
-            ``web_app``. The HTML in ``web_app`` can be changed by assigning
+            ``window``. The HTML in ``window`` can be changed by assigning
             the new HTML to this property.
         static_path (str property): The absolute path relative to which the
             ``staticfile`` filter will create links in templating. Changing
@@ -64,7 +66,7 @@ class AppGUI(BaseGUI):
             jinja2 finds the templates to be rendered. Changing this updates
             the template loader in current templating environment.
         template (tuple(str, dict) property): The current template being
-            displayed in ``web_app``. First element of the tuple is the
+            displayed in ``window``. First element of the tuple is the
             path of the template file relative to ``template_path``. The
             second element of the tuple is the context dictionary in which it
             is being rendered.
@@ -111,7 +113,7 @@ class AppGUI(BaseGUI):
         self.template_path = self.__driver_script_location
 
         self.__signal_objects = {Helper.__name__: Helper()}
-        self.web_app.loadFinished.connect(self.__rebind_all)
+        self.window.loadFinished.connect(self.__rebind_all)
 
         script_location = os.path.join(os.path.abspath(
             os.path.dirname(settings.__file__)), "binder.js")
@@ -123,8 +125,8 @@ class AppGUI(BaseGUI):
 
     html = descriptors.LiveProperty(
         unicode,
-        lambda instance: instance.web_app.page().mainFrame().toHtml(),
-        lambda instance, value: instance.web_app.setHtml(value))
+        lambda instance: instance.window.page().mainFrame().toHtml(),
+        lambda instance, value: instance.window.setHtml(value))
 
     static_path = descriptors.CustomAssignmentProperty(
         "static_path", str,
@@ -137,7 +139,7 @@ class AppGUI(BaseGUI):
     @property
     def template(self):
         """
-        tuple(str, dict): The current template being displayed in ``web_app``.
+        tuple(str, dict): The current template being displayed in ``window``.
             First element of the tuple is the path of the template file
             relative to ``template_path``. The second element of the tuple is
             the context dictionary in which it is being rendered.
@@ -149,7 +151,7 @@ class AppGUI(BaseGUI):
         """ Display the template represented by ``template_tuple``
 
         This function renders the template represented by ``template_tuple``
-        using jinja2 and sets the result as the HTML of current ``web_app``.
+        using jinja2 and sets the result as the HTML of current ``window``.
         """
         if not isinstance(template_tuple, tuple):
             raise TypeError("A tuple is required")
@@ -213,7 +215,7 @@ class AppGUI(BaseGUI):
             variable_name
         if name == Helper.__class__.__name__:
             raise NameError("{} is htmlPy reserved name".format(name))
-        self.web_app.page().mainFrame().addToJavaScriptWindowObject(
+        self.window.page().mainFrame().addToJavaScriptWindowObject(
             name, signal_object)
         self.__signal_objects[name] = signal_object
 
@@ -224,5 +226,5 @@ class AppGUI(BaseGUI):
             ``self.__signal_objects`` with the dictionary keys as names.
         """
         for name, signal_object in self.__signal_objects.items():
-            self.web_app.page().mainFrame().addToJavaScriptWindowObject(
+            self.window.page().mainFrame().addToJavaScriptWindowObject(
                 name, signal_object)

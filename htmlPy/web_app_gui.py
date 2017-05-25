@@ -1,5 +1,7 @@
-from .base_gui import BaseGUI
+from PyQt5.QtCore import QUrl
+
 from . import descriptors, unicode
+from .base_gui import BaseGUI
 
 
 class WebAppGUI(BaseGUI):
@@ -50,13 +52,13 @@ class WebAppGUI(BaseGUI):
             This can be instantiated only once in the entire process.
         window (PySide.QtGui.QMainWindow): The window being displayed in the
             ``app``.
-        web_app (PySide.QtWebKit.QWebView): The web view widget which renders
+        window (PySide.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
         url (unicode property): The URL currently being displayed in
             ``window``. Set the property to a URL unicode string to change the
             URL being displayed.
         html (unicode property): The HTML currently rendered in the
-            ``web_app``. This is a readonly property.
+            ``window``. This is a readonly property.
         maximized (bool property): A boolean which describes whether the
             ``window`` is maximized or not. Can be set to ``True`` to maximize
             the window and set to ``False`` to restore.
@@ -93,16 +95,16 @@ class WebAppGUI(BaseGUI):
 
     url = descriptors.LiveProperty(
         unicode,
-        lambda instance: instance.web_app.url().toString(),
-        lambda instance, link: instance.web_app.setUrl(link))
+        lambda instance: instance.window.url().toString(),
+        lambda instance, link: instance.window.setUrl(QUrl(link)))
 
     @property
     def html(self):
         """ unicode: The HTML currently rendered in the window.
 
         This property will return the HTML which is being displayed in the
-        ``web_app``. This is not asynchronous. The URL set with htmlPy will not
+        ``window``. This is not asynchronous. The URL set with htmlPy will not
         load until the window is in display.
         """
 
-        return self.web_app.page().mainFrame().toHtml()
+        return self.window.page().mainFrame().toHtml()

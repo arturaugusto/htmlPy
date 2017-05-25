@@ -1,6 +1,8 @@
-import htmlPy
-from PySide import QtGui
 import json
+
+from PyQt5.QtWidgets import QFileDialog
+
+import htmlPy
 
 
 class GUIHelper(htmlPy.Object):
@@ -42,6 +44,6 @@ class GUIHelper(htmlPy.Object):
         extensions = json.loads(filters)
         extensions_filter = ";;".join(map(lambda e: "{} ({})".format(
             e["title"], e["extensions"]), extensions))
-        window = QtGui.QMainWindow()
-        return QtGui.QFileDialog.getOpenFileName(window, "Select file", ".",
+        window = QFileDialog()
+        return QFileDialog.getOpenFileName(window, "Select file", ".",
                                                  extensions_filter)[0]
