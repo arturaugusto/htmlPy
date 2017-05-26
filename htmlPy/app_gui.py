@@ -8,7 +8,7 @@ from .gui_helper import GUIHelper as Helper
 
 
 class AppGUI(BaseGUI):
-    """ GUI class for creating apps using PySide's QtWebkit.
+    """ GUI class for creating apps using PyQt5's QtWebkit.
 
     The class AppGUI can be used to create standalone applications with HTML
     GUI. It uses Jinja2 templating engine for generating HTML which can be
@@ -40,7 +40,7 @@ class AppGUI(BaseGUI):
             ``True``. Defaults to ``False``. The developer mode gives access
             to web inspector and other development tools and enables
             right-click on the webpage.
-        allow_overwrite (Optional[bool]): ``PySide.QtGui.QApplication`` can be
+        allow_overwrite (Optional[bool]): ``PyQt5.QtGui.QApplication`` can be
             instantiated only once. If it is already instantiated, then setting
             ``allow_overwrite`` to ``True`` overwrites the ``QApplication``'s
             window with window of this class instance. If ``False``,
@@ -49,11 +49,11 @@ class AppGUI(BaseGUI):
 
 
     Attributes:
-        app (PySide.QtGui.QApplication): The singleton Qt application object.
+        app (PyQt5.QtGui.QApplication): The singleton Qt application object.
             This can be instantiated only once in the entire process.
-        window (PySide.QtGui.QMainWindow): The window being displayed in the
+        window (PyQt5.QtGui.QMainWindow): The window being displayed in the
             ``app``.
-        window (PySide.QtWebKit.QWebView): The web view widget which renders
+        window (PyQt5.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
         html (unicode property): The HTML currently rendered in the
             ``window``. The HTML in ``window`` can be changed by assigning
@@ -95,7 +95,7 @@ class AppGUI(BaseGUI):
             as required.
 
     Raises:
-        RuntimeError: If ``PySide.QtGui.QApplication`` is already instantiated
+        RuntimeError: If ``PyQt5.QtGui.QApplication`` is already instantiated
             and ``allow_overwrite`` is ``False``.
 
     """

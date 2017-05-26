@@ -40,7 +40,8 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
         return Mock()
 
-MOCK_MODULES = ['PySide', 'PySide.QtCore', 'PySide.QtGui']
+
+MOCK_MODULES = ['PyQt5', 'PyQt5.QtCore']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # Add any paths that contain templates here, relative to this directory.

@@ -18,7 +18,7 @@ Welcome to htmlPy's documentation!
 
 **HTML5-CSS3-Javascript based GUI libary in Python**
 
-htmlPy is a wrapper around `PySide <http://pyside.org/>`_'s QtWebKit library. It helps with creating beautiful GUIs using **HTML5, CSS3 and Javascript** for standalone Python applications. It is built on `Qt <http://qt.io/>`_ which makes it highly **customizable and cross-platform**. htmlPy is compatible with both **Python2 and Python3**. It can be used with any python library or environment like `django <https://www.djangoproject.com/>`_, `flask <http://flask.pocoo.org/>`_, `scipy <http://www.scipy.org/>`_, `virtualenv <http://virtualenv.readthedocs.org/>`_ etc. You can use front-end libraries and frameworks like `bootstrap <http://getbootstrap.com/>`_, `jQuery <http://jquery.com/>`_, `jQuery UI <http://jqueryui.com/>`_ etc. and create GUIs for your applications in no time.
+htmlPy is a wrapper around PyQt5_'s QtWebKit library. It helps with creating beautiful GUIs using **HTML5, CSS3 and Javascript** for standalone Python applications. It is built on `Qt <http://qt.io/>`_ which makes it highly **customizable and cross-platform**. htmlPy is compatible with both **Python2 and Python3**. It can be used with any python library or environment like `django <https://www.djangoproject.com/>`_, `flask <http://flask.pocoo.org/>`_, `scipy <http://www.scipy.org/>`_, `virtualenv <http://virtualenv.readthedocs.org/>`_ etc. You can use front-end libraries and frameworks like `bootstrap <http://getbootstrap.com/>`_, `jQuery <http://jquery.com/>`_, `jQuery UI <http://jqueryui.com/>`_ etc. and create GUIs for your applications in no time.
 
 To start using htmlPy, please read :doc:`installation instructions <installation>`.
 
@@ -29,11 +29,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   installation
    quickstart
    important
    tutorials
-   reference
 
 
 Indices and tables

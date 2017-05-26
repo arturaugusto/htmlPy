@@ -20,7 +20,7 @@ Class :py:class:`htmlPy.Object`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. py:class:: htmlPy.Object
 
-    Alias of ``PySide.QtCore.QObject``.
+    Alias of ``PyQt5.QtCore.QObject``.
 
     For binding python functionalities to GUI, the classes being bound should
     inherit :py:class:`htmlPy.Object`. Its constructor has to be called. The methods
@@ -35,7 +35,7 @@ Decorator :py:class:`htmlPy.Slot`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. py:class:: htmlPy.Slot
 
-    Alias of ``PySide.QtCore.Slot``
+    Alias of ``PyQt5.QtCore.pyqtSlot``
 
     This decorator binds the methods of classes which inherit :py:class:`htmlPy.Object`
     to the GUI. The argument types and return type of the method being bound have

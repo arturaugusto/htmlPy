@@ -16,7 +16,6 @@ addons:
 install:
   - pip install .
   - pip install -r requirements.txt
-  - sudo apt-get install python-pyside
 
 # command to run tests
 script: nosetests -a '!no-coverage'

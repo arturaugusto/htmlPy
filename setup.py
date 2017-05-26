@@ -1,10 +1,8 @@
 from setuptools import setup
 import sys
 
-requirements = ["Jinja2(>=2.6)"]
+requirements = ["Jinja2(>=2.6)", "PyQt5"]
 
-if "win" in sys.platform:
-    requirements.append("PySide(>=1.2.2)")
 
 setup(
     name='htmlPy',
@@ -15,7 +13,7 @@ setup(
     scripts=[],
     url='http://pypi.python.org/pypi/htmlPy/',
     license='LICENSE.txt',
-    description="A wrapper around PySide's QtWebKit library which helps " +
+    description="A wrapper around PyQt5's QtWebKit library which helps " +
     "developer create beautiful UI with HTML5, CSS and Javascript for " +
     "standalone applications.",
     long_description=open('README.md').read(),

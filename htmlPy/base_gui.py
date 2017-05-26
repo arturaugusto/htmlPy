@@ -24,7 +24,7 @@ TEXT_SELECTION_DISABLE = "document.onselectstart = function(e) " + \
 
 
 class BaseGUI(object):
-    """ Abstract GUI class for creating apps using PySide's Qt and HTML.
+    """ Abstract GUI class for creating apps using PyQt5's Qt and HTML.
 
     This class shouldn't be used directly. It serves as a parent to other
     GUI classes. Use :py:class:`htmlPy.AppGUI` and
@@ -34,11 +34,11 @@ class BaseGUI(object):
         No args: This is an abstract base class. It must not be instantiated.
 
     Attributes:
-        app (PySide.QtGui.QApplication): The singleton Qt application object.
+        app (PyQt5.QtGui.QApplication): The singleton Qt application object.
             This can be instantiated only once in the entire process.
-        window (PySide.QtGui.QMainWindow): The window being displayed in the
+        window (PyQt5.QtGui.QMainWindow): The window being displayed in the
             ``app``.
-        window (PySide.QtWebKit.QWebView): The web view widget which renders
+        window (PyQt5.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
         maximized (bool property): A boolean which describes whether the
             ``window`` is maximized or not. Can be set to ``True`` to maximize
