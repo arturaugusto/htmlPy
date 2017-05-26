@@ -76,6 +76,4 @@ data-bind="true"&gt;
     </tr>
 </table>
 
-<h2>Code</h2>
-<p>htmlPy source code is hosted on <a href="https://github.com/amol-mandhane/htmlPy" target="_blank">GitHub</a>, tested on <a href="https://travis-ci.org/amol-mandhane/htmlPy" target="_blank">Travis CI</a> and released on <a href="https://pypi.python.org/pypi/htmlPy/" target="_blank">PyPI</a>.</p>
 </div>
